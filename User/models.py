@@ -24,6 +24,7 @@ class tbl_complaint(models.Model):
     description=models.CharField(max_length=45)
     complaint_date=models.DateField(auto_now_add=True)
     reply=models.CharField(max_length=50,default='No reply')
+    status=models.CharField(max_length=1,default='0')
     
     
     

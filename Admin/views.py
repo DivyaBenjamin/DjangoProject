@@ -136,6 +136,4 @@ def viewcomplaint(request):
 
 def reply(request):
     complaint=tbl_complaint.objects.all()
-    if request.method=="POST":
-        
     return render(request,'Admin/Reply.html')
