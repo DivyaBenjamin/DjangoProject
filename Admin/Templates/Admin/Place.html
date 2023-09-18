@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+    <div>
+        <Label>District:</Label>
+    </div>
+    <div>
+        <select name="district">
+            <option value="">...Select...</option>
+            {% for i in dis %}
+            <option value="{{i.id}}">{{i.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label>Place:</label>
+    </div>
+    <div>
+        <input type="text" name="place">
+    </div>
+    <div>
+        <input type="submit" name="submit" value="Save">
+    </div>
+</form>
+<table>
+    <tr>
+        <th>#</th>
+        <th>District</th>
+        <th>Place</th>
+        <th>Action1</th>
+        <th>Action2</th>
+    </tr>
+    {% for k in place %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{k.district.name}}</td>
+        <td>{{k.name}}</td>
+        <td><a href="{% url 'webadmin:deleteplace' k.id %}">Delete</a></td>
+    </tr>
+    {% endfor %}
+</body>
+</html>

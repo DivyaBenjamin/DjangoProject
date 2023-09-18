@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+</head>
+<body>
+    <form action="" method="POST" id="productform" data-product-url="{% url 'webshop:Ajaxproduct' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div><label>Product name:</label></div>
+        <div><input type="text" name="name"></div>
+        <div><label>Product rate:</label></div>
+        <div><input type="text" name="rate"></div>
+        <div><label>Product image:</label></div>
+        <div><input type="file" name="image"></div>
+        <div><label>Stock:</label></div>
+        <div><input type="text" name="stock"></div>
+        <div><label>Category</label></div>
+        <div><select name="category" id="category">
+            <option value="">..Select..</option>
+            {% for i in category %}
+            <option value={{i.id}}>{{i.name}}</option>
+            {% endfor %}
+        </select></div>
+        <div><label>Subcategory:</label></div>
+        <div><select name="subcategory" id="subcategory">
+            <option value="">..Select..</option>
+           
+        </select></div>
+        <div>
+            <input type="submit" name="submit" value="Submit">
+        </div>
+    </form>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Rate</th>
+            <th>Image</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Action</th>
+            <th>Add</th>
+        </tr>
+        {% for k in product %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{k.name}}</td>
+            <td>{{k.rate}}</td>
+            <td><img src="{{k.image.url}}" width="150" height="150" alt=""></td>
+            <td>{{k.stock}}</td>
+            <td>{{k.subcategory.category.name}}</td>
+            <td>{{k.subcategory.sub}}</td>
+            <td><a href="{%url 'webshop:deleteproduct' k.id%}">Delete</a></td>
+            <td><a href="{%url 'webshop:updatestock' k.id%}">Stock Update</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#category").change(function () {
+        var pid = $(this).val();
+        var pr = $("#productform").attr("data-product-url");
+        $.ajax({
+            url: pr,
+            data: { pisd: pid, },
+            success: function (data) {
+                $("#subcategory").html(data);
+            },
+        });
+    });
+
+</script>

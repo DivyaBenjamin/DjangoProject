@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User</title>
+</head>
+<body>
+    <form method="POST" id="userform" data-user-url="{% url 'webadmin:Ajaxplace' %}" border:"solid" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <Label>Name:</Label>
+        </div>
+        <div>
+            <input type="text" name="name">
+        </div>
+        <div>
+           <Label>Contact:</Label> 
+        </div>
+        <div>
+            <input type="text" name="contact">
+        </div>
+        <div>
+            <Label>Email:</Label>
+        </div>
+        <div>
+            <input type="email" name="email">
+        </div>
+        <div>
+            <Label>Address:</Label>
+        </div>
+        <div>
+            <textarea name="address" cols="30" rows="10"></textarea>
+        </div>
+        <div>
+            <label>Gender:</label>
+        </div>
+        <div>
+            <input type="radio" name="gender" value="Male">Male
+            <input type="radio" name="gender" value="Female">Female
+        </div>
+        <div>
+            <Label>District:</Label>
+        </div>
+        <div>
+            <select name="district" id="district">
+                <option value="">..Select..</option>
+                {% for i in district %}
+                <option value="{{i.id}}">{{i.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <Label>Place:</Label>
+        </div>
+        <div>
+            <select name="place" id="place">
+                <option value="">..Select..</option>
+                {% for j in place %}
+                <option value="{{j.id}}">{{j.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Photo:</label>
+        </div>
+        <div>
+            <input type="file" name="photo">
+        </div>
+        <div>
+            <label>Password:</label>
+        </div>
+        <div>
+            <input type="text" name="password">
+        </div>
+        <div>
+            <label>Confirm Password:</label>
+        </div>
+        <div>
+            <input type="text" name="confirmpassword">
+        </div>
+        <div>
+            <input type="submit" name="submit" value="register">
+            <input type="cancel" name="cancel" value="cancel">
+        </div>
+    </form>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#district").change(function () {
+        var did = $(this).val();
+        var ur = $("#userform").attr("data-user-url");
+        $.ajax({
+            url: ur,
+            data: { disd: did, },
+            success: function (data) {
+                $("#place").html(data);
+            },
+        });
+    });
+
+</script>

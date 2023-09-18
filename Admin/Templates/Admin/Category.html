@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="category">
+            <label>Category:</label>
+        </div>
+        <div class="Cat-input">
+            <input type="text" name="category" value="{{data.name}}">
+        </div>
+        <div>
+            <input type="submit" name="submit" value="Save">
+            <input type="button" name="cancel" value="Cancel">
+        </div>
+    </form>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+        {% for i in cat %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.name}}</td>
+            <td><a href="{% url 'webadmin:deletecat' i.id %}">Delete</a></td>
+            <td><a href="{% url 'webadmin:editcat' i.id %}">Edit</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

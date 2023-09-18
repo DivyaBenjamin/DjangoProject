@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        *{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+ a{
+     text-decoration: none;
+     color: black;
+ }
+ .Container{
+     padding: 6rem 0;
+     background-color: rgb(234, 241, 245);
+ }
+ .Card-wrapper{
+     display: flex;
+     align-items: center;
+     align-content: center;
+     flex-direction: row;
+ }
+ .Card{
+     width: 20em;
+     background-color: #ebeef8;
+     display:flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: space-around;
+     margin: 2rem 0;
+     box-shadow: .5rem .3rem 3rem rgba(0, 0, 0, 0.2);
+ }
+ .Card img{
+     object-fit: cover;
+ } 
+ .Btn-profile{
+    background-color: #0b1fcf;
+    color: white;
+    padding: 5px 25px;
+    border-radius: 5px;
+ }
+    </style>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="Container">
+            <h2>Feedback Form</h2>
+            <a class="Btn-profile" href="{% url 'webuser:home'%}">Profile</a>
+            <div class="Card-wrapper">
+                <div class="Card">
+                    <div class="Message">
+                        <label>Message:</label>
+                        <textarea name="feedback" cols="20" rows="5"></textarea>
+                        <div>
+                            <input type="submit" name="submit" class="Btn-profile" value="Send">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

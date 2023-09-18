@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editprofile</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div><label>Name:</label></div>
+        <div>
+            <input type="text" name="name" value="{{i.name}}">
+        </div>
+        <div><label>Contact:</label></div>
+        <div>
+            <input type="text" name="contact" value="{{i.contact}}">
+        </div>
+        <div><label>Email:</label></div>
+        <div>
+            <input type="email" name="email" value="{{i.email}}">
+        </div>
+        <div><label>Address:</label></div>
+        <div>
+            <textarea name="address" cols="20" rows="10">{{i.address}}</textarea>
+        </div>
+        <div>
+            <input type="submit" name="submit" value="Update">
+        </div>
+    </form>
+</body>
+</html>

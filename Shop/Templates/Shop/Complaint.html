@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint/Shop</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <h3>Shop Complaint Form</h3>
+        <div>
+            <label>Name:</label>{{complaint.name}}
+        </div>
+        <div>
+            <label>Email:</label>{{complaint.email}}
+        </div>
+        <div>
+            <label>Problem description:</label>
+            <textarea name="shopcomplaint" cols="20" rows="5"></textarea>
+        </div>
+        <div>
+            <input type="submit" name="submit" value="Enter">
+        </div>
+    </form>
+</body>
+</html>

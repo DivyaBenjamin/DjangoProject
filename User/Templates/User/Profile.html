@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        .Container{
+            padding: 6rem 0;
+            background-color: white;
+        }
+        .Card{
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            margin: auto;
+            text-align: center;
+            font-family: arial;
+        }
+    </style>
+</head>
+<body>
+    <form method="POST">
+        <div class="Container">
+            <div class="Card">
+                <div><Label>Name</Label>&nbsp;&nbsp;{{i.name}}</div>
+                <div><label>Contact</label>&nbsp;&nbsp;{{i.contact}}</div>
+                <div><label>Email</label>&nbsp;&nbsp;{{i.email}}</div>
+                <div><label>Address</label>&nbsp;&nbsp;{{i.address}}</div>
+                <div>
+                    <a href="{% url 'webuser:editprofile' %}">EditProfile</a>
+                    <a href="{% url 'webuser:changepassword' %}">ChangePassword</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

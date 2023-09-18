@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprogram</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <label>Category</label>
+        </div>
+        <div>
+            <select name="Category">
+                <option value="">...Select...</option>
+                {% for i in cat %}
+                <option value="{{i.id}}">{{i.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Subcategory</label>
+        </div>
+        <div>
+            <input type="text" name="subcategory">
+        </div>
+        <div>
+            <input type="submit" name="submit" value="Save">
+            <input type="cancel" name="cancel" value="Cancel">
+        </div>
+    </form>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Action1</th>
+            <th>Action2</th>
+        </tr>
+        {% for l in subcategory %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{l.category.name}}</td>
+            <td>{{l.sub}}</td>
+            <td><a href="{%url 'webadmin:deletesub' l.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

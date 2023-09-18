@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Details</title>
+    <style>
+        *{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+ a{
+     text-decoration: none;
+     color: black;
+ }
+ .Sub-container{
+    display: flex;
+ }
+ .Container{
+     padding: 6rem 0;
+     background-color: white;
+ }
+ .Card-wrapper{
+     display: flex;
+     align-items: center;
+ }
+ .Card{
+     width: 20em;
+     background-color: #ebeef8;
+     display:flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: space-around;
+     margin: 2rem 0;
+     margin-left: 410px;
+     box-shadow: .5rem .3rem 3rem rgba(0, 0, 0, 0.2);
+ }
+ .Card img{
+     object-fit: cover;
+ } 
+ .Btn-profile{
+     background-color: #0b1fcf;
+     color: white;
+     padding: 15px 25px;
+     border-radius: 5px;
+ }
+    </style>
+</head>
+<body>
+    <form action="" method="POST" id="viewshopform">
+        {% csrf_token %}
+        <div class="Sub-container">
+            <div class="Container">
+                <div class="Card-wrapper" id="shop">
+                    <div class="Card">
+                        <div><img src="{{k.photo.url}}" width="150" height="150"></div>
+                        <div>Name:{{k.name}}</div>
+                        <div>Address:{{k.address}}</div>
+                        <div>Contact:{{k.contact}}</div>
+                    <a class="Btn-profile" href="{% url 'webuser:viewproducts' %}">View Products</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

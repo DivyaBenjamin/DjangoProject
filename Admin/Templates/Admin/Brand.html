@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand</title>
+</head>
+<body>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="Title">
+            <label>Brand:</label>
+        </div>
+        <div class="container">
+            <input type="text" name="brand" value="{{data.name}}">
+        </div>
+        <div>
+            <input type="submit" name="submit" value="Save">
+            <input type="reset" name="cancel" value="cancel">
+        </div>
+    </form>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Brand</th>
+            <th>Action1</th>
+            <th>Action2</th>
+        </tr>
+        {% for j in brand %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{j.name}}</td>
+            <td><a href="{% url 'webadmin:deletebrand' j.id%}">Delete</a></td>
+            <td><a href="{% url 'webadmin:editbrand' j.id%}">Edit</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

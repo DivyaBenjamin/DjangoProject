@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viewfeedback</title>
+</head>
+<body>
+    <h3>User Feedback</h3>
+    {% csrf_token %}
+    <form action="" method="post"></form>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Feedback</th>
+            <th>Date</th>
+            <th>Users</th>
+            <th>Action</th>
+        </tr>
+        {% for l in feedback1 %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{l.feedback_content}}</td>
+            <td>{{l.feedback_date}}</td>
+            <td>{{l.user_id.name}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Shop Feedback</h3>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Feedback</th>
+            <th>Date</th>
+            <th>Shop</th>
+            <th>Action</th>
+        </tr>
+        {% for m in feedback %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{m.feedback_content}}</td>
+            <td>{{m.feedback_date}}</td>
+            <td>{{m.shop_id.name}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

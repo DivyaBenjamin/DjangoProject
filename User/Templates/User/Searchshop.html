@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <style>
+        *{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+ a{
+     text-decoration: none;
+     color: black;
+ }
+ .Select{
+    padding: 8px 12px;
+    color: #333333;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    cursor: pointer;
+    border-radius: 5px;
+ }
+ .Sub-container{
+    display: flex;
+ }
+ .Container{
+     padding: 6rem 0;
+     background-color: white;
+ }
+ .Card-wrapper{
+     display: flex;
+     align-items: center;
+     align-content: center;
+     flex-direction: row;
+ }
+ .Card{
+     width: 20em;
+     background-color: #ebeef8;
+     display:flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: space-around;
+     margin: 2rem 0;
+     box-shadow: .5rem .3rem 3rem rgba(0, 0, 0, 0.2);
+ }
+ .Card img{
+     object-fit: cover;
+ } 
+ .Btn-profile{
+     background-color: #0b1fcf;
+     color: white;
+     padding: 15px 25px;
+     border-radius: 5px;
+ }
+     </style>
+</head>
+<body>
+    <form action="" method="POST" id="searchform" data-search-url="{% url 'webuser:Ajaxsearch' %}" data-shop-url="{% url 'webuser:Ajaxshopresult' %}" >
+        <div><label>District:</label></div>
+        <div>
+            <select name="district" id="district" class="Select">
+                <option value="">--Select--</option>
+                {% for i in district %}
+                <option value="{{i.id}}">{{i.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Place:</label>
+            <select name="place" id="place" class="Select">
+                <option value="">--Select--</option>
+            </select>
+        </div>
+        
+        <div class="Sub-container">
+            <div class="Container">
+                <div class="Card-wrapper" id="shop">
+                    {% for k in shop %}
+                    <div class="Card">
+                        <div><img src="{{k.photo.url}}" width="150" height="150"></div>
+                        <div>Name:{{k.name}}</div>
+                        <div>Address:{{k.address}}</div>
+                        <div>Contact:{{k.contact}}</div>
+                    <a class="Btn-profile" href="{% url 'webuser:Viewmore' k.id  %}">View More</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+    </form>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#district").change(function () {
+        var did = $(this).val();
+        var pid = document.getElementById('place').value
+        var sdr = $("#searchform").attr("data-search-url");
+        $.ajax({
+            url: sdr,
+            data: { sdisd: did, },
+            success: function (data) {
+                $("#place").html(data);
+
+                var sdr = $("#searchform").attr("data-shop-url");
+                $.ajax({
+                    url: sdr,
+                    data: { pid: pid, did:did },
+                    success: function (data) {
+                        $("#shop").html(data);
+                    },
+                });
+            },
+        });
+    });
+
+    $("#place").change(function () {
+        var pid = $(this).val();
+        var did = document.getElementById('district').value;
+        var sdr = $("#searchform").attr("data-shop-url");
+        $.ajax({
+            url: sdr,
+            data: { pid: pid, did:did },
+            success: function (data) {
+                $("#shop").html(data);
+            },
+        });
+    });
+</script>

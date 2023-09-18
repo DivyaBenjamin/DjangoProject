@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Products</title>
+    <style>
+        *{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+ a{
+     text-decoration: none;
+     color: black;
+ }
+ .Select{
+    padding: 8px 12px;
+    color: #333333;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    cursor: pointer;
+    border-radius: 5px;
+ }
+ .Select:focus, .Select:hover{
+    outline: none;
+    border: 1px solid #bbbbbb;
+ }
+ .Sub-container{
+    display: flex;
+ }
+ .Container{
+     padding: 6rem 0;
+     background-color: white;
+ }
+ .Card-wrapper{
+     display: flex;
+     align-items: center;
+     align-content: center;
+     flex-direction: row;
+ }
+ .Card{
+     width: 20em;
+     background-color: #ebeef8;
+     display:flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: space-around;
+     margin: 2rem 0;
+     box-shadow: .5rem .3rem 3rem rgba(0, 0, 0, 0.2);
+ }
+ .Card img{
+     object-fit: cover;
+ } 
+ .Btn-profile{
+     background-color: #0b1fcf;
+     color: white;
+     padding: 15px 25px;
+     border-radius: 5px;
+ }
+     </style>
+</head>
+<body>
+    <form action="" method="POST" id="viewshopproductform" data-category-url="{% url 'webuser:Ajaxcategory' %}" data-viewproduct-url="{% url 'webuser:Ajaxviewproduct' %}">
+        <div>
+            <label>Category:</label>
+            <select name="category" id="category" class="Select">
+                <option value="">--Select--</option>
+                {% for i in category %}
+                <option value="{{i.id}}">{{i.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Subcategory:</label>
+            <select name="subcategory" id="subcategory" class="Select">
+                <option value="">--Select--</option>
+            </select>
+        </div>
+        <div class="Sub-container">
+            <div class="Container">
+                <div class="Card-wrapper" id="product">
+                    {% for l in product %}
+                    <div class="Card">
+                        <div><img src="{{l.image.url}}" width="150" height="150"></div>
+                        <div>Name:{{l.name}}</div>
+                        <div>Rate:{{l.rate}}</div>
+                        <div>Stock:{{l.stock}}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#category").change(function () {
+        var bid = $(this).val();
+        var cid = document.getElementById('subcategory').value
+        var bdr = $("#viewshopproductform").attr("data-category-url");
+        $.ajax({
+            url: bdr,
+            data: { bisd: bid, },
+            success: function (data) {
+                $("#subcategory").html(data);
+
+                var bdr = $("#viewshopproductform").attr("data-viewproduct-url");
+                $.ajax({
+                    url: bdr,
+                    data: { cid: cid, bid:bid },
+                    success: function (data) {
+                        $("#product").html(data);
+                    },
+                });
+            },
+        });
+    });
+
+    $("#subcategory").change(function () {
+        var cid = $(this).val();
+        var bid = document.getElementById('category').value;
+        var bdr = $("#viewshopproductform").attr("data-viewproduct-url");
+        $.ajax({
+            url: bdr,
+            data: { bid: bid, cid:cid },
+            success: function (data) {
+                $("#product").html(data);
+            },
+        });
+    });
+</script>

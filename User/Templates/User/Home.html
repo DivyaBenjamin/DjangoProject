@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+       *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.Container{
+    padding: 6rem 0;
+    background-color: white;
+}
+.Card-wrapper{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+}
+.Card{
+    width: 32em;
+    background-color: #ebeef8;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+    box-shadow: .5rem .3rem 3rem rgba(0, 0, 0, 0.2);
+}
+.Card img{
+    width: 77%;
+    height: 22rem;
+    object-fit: cover;
+} 
+.Btn-profile{
+    background-color: #0b1fcf;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 5px;
+}
+.Btn-profile:hover{
+  transform: scale(1.2);
+}
+    </style>
+</head>
+<body>
+    <div class="Container">
+        <div class="Card-wrapper">
+            <div class="Card">
+                <img src="{% static 'imgs.png' %}" alt="profile img" class="profile-img">
+                <a class="Btn-profile" href="{% url 'webuser:profile'%}">Profile</a>
+                <a class="Btn-profile" href="{% url 'webuser:searchshop'%}">Search</a>
+                <a class="Btn-profile" href="{% url 'webuser:feedback'%}">Feedback</a>
+                <a class="Btn-profile" href="{% url 'webuser:complaint'%}">Complaint</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

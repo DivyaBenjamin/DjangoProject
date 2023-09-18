@@ -1,0 +1,15 @@
+<div class="Sub-container">
+    <div class="Container">
+        <div class="Card-wrapper" id="shop">
+            {% for k in shop %}
+            <div class="Card">
+                <div><img src="{{k.photo.url}}" width="150" height="150"></div>
+                <div>Name:{{k.name}}</div>
+                <div>Address:{{k.address}}</div>
+                <div>Contact:{{k.contact}}</div>
+            <a class="Btn-profile" href="{% url 'webuser:Viewmore'  k.id %}">View More</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

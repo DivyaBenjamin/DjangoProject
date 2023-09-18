@@ -1,0 +1,14 @@
+<div class="Sub-container">
+    <div class="Container">
+        <div class="Card-wrapper" id="product">
+            {% for l in product %}
+            <div class="Card">
+                <div><img src="{{l.image.url}}" width="150" height="150"></div>
+                <div>Name:{{l.name}}</div>
+                <div>Rate:{{l.rate}}</div>
+                <div>Stock:{{l.stock}}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
