@@ -134,6 +134,12 @@ def viewcomplaint(request):
     shopcomplaint=tbl_complaint.objects.filter(shop__in=shop)
     return render(request,'Admin/Viewcomplaint.html',{'complaint':shopcomplaint,'complaint1':complaintdata})
 
-def reply(request):
-    complaint=tbl_complaint.objects.all()
-    return render(request,'Admin/Reply.html')
+def reply(request,kid):
+    complaint=tbl_complaint.objects.get(id=kid)
+    if request.method=="POST":
+        complaint.reply=request.POST.get('reply')
+        complaint.status=1
+        complaint.save()
+        return redirect('webadmin:viewcomplaint')
+    else:
+        return render(request,'Admin/Reply.html',{'complaint':complaint,'complaint1':complaint})

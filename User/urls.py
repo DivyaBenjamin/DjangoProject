@@ -15,4 +15,6 @@ urlpatterns = [
     path('Ajaxviewproduct/',views.Ajaxviewproduct,name="Ajaxviewproduct"),
     path('Feedback/',views.feedback,name="feedback"),
     path('Complaint/',views.complaint,name="complaint"),
+    path('Viewreply/',views.viewreply,name="viewreply"),
+    path('Productcart/<int:cid>',views.productcart,name="productcart"),
 ]

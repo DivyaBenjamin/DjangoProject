@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Reply</title>
+    <style>
+          .Container{
+            padding: 6rem 0;
+            background-color: white;
+        }
+        .Card{
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            margin: auto;
+            text-align: center;
+            font-family: arial;
+        }
+        .Btn-profile{
+        background-color: #0b1fcf;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        }
+        .Btn-profile:hover{
+        transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+    <form method="POST">
+        <h3>Reply from Admin</h3>
+        <div class="Container">
+            <div class="Card">
+                <div><Label>Name</Label>&nbsp;&nbsp;{{i.user.name}}</div>
+                <div><label>Reply</label>&nbsp;&nbsp;{{i.reply}}</div>
+                <div>
+                    <a class="Btn-profile" href="{% url 'webuser:Home' %}">Thank You</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

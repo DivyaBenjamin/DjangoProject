@@ -9,4 +9,5 @@ urlpatterns = [
     path('updatestock/<int:rid>',views.updatestock,name="updatestock"),
     path('Feedback/',views.feedback,name="feedback"),
     path('Complaint/',views.complaint,name="complaint"),
+    path('Viewreply/<int:sid>',views.viewreply,name="viewreply"),
 ]

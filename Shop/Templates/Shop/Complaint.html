@@ -10,10 +10,10 @@
         {% csrf_token %}
         <h3>Shop Complaint Form</h3>
         <div>
-            <label>Name:</label>{{complaint.name}}
+            <label>Name:</label>{{i.name}}
         </div>
         <div>
-            <label>Email:</label>{{complaint.email}}
+            <label>Email:</label>{{i.email}}
         </div>
         <div>
             <label>Problem description:</label>
@@ -23,5 +23,19 @@
             <input type="submit" name="submit" value="Enter">
         </div>
     </form>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Complaint</th>
+            <th>Reply</th>
+        </tr>
+        {% for i in complaint %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.description}}</td>
+            <td>{{i.reply}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

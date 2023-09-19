@@ -5,12 +5,13 @@ from Shop.models import*
 class tbl_booking(models.Model):
     booking_status=models.CharField(max_length=1,default='0')
     user_id=models.ForeignKey(tbl_newuser,on_delete=models.CASCADE)
+    status=models.CharField(max_length=1,default='0')
+    payment_status=models.CharField(max_length=1,default='0')
 
 class tbl_cart(models.Model):
     quantity=models.CharField(max_length=30)
     product_id=models.ForeignKey(tbl_products,on_delete=models.CASCADE)
     booking_id=models.ForeignKey(tbl_booking,on_delete=models.CASCADE)
-    cart_status=models.CharField(max_length=1,default='0')
 
 class tbl_feedback(models.Model):
     feedback_content=models.CharField(max_length=40)

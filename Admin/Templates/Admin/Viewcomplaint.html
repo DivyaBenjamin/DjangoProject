@@ -23,7 +23,7 @@
             <td>{{n.description}}</td>
             <td>{{n.complaint_date}}</td>
             <td>{{n.user.name}}</td>
-            <td><a href="{% url 'webadmin:reply' %}">Give Reply</a></td>
+            <td><a href="{% url 'webadmin:reply' n.id %}">Give Reply</a></td>
         </tr>
         {% endfor %}
     </table>
@@ -42,7 +42,7 @@
             <td>{{o.description}}</td>
             <td>{{o.complaint_date}}</td>
             <td>{{o.shop_id.name}}</td>
-            <td><a href="{% url 'webadmin:reply' %}">Give Reply</a></td>
+            <td><a href="{% url 'webadmin:reply' o.id %}">Give Reply</a></td>
         </tr>
         {% endfor %}
     </table>

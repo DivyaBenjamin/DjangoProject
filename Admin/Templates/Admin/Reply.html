@@ -10,13 +10,13 @@
         {% csrf_token %}
         <h3>User Complaint Form</h3>
         <div>
-            <label>Name:</label>{{reply.name}}
+            <label>Name:</label>{{complaint.user.name}}
         </div>
         <div>
-            <label>Description:</label>{{reply.email}}
+            <label>Description:</label>{{complaint.description}}
         </div>
         <div>
-            <label>Date:</label>{{reply.email}}
+            <label>Date:</label>{{complaint.complaint_date}}
         </div>
         <div>
             <label>Reply:</label>

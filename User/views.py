@@ -103,8 +103,18 @@ def feedback(request):
 
 def complaint(request):
     complaintuser=tbl_newuser.objects.get(id=request.session['uid'])
+    complaintdata=tbl_complaint.objects.filter(user=complaintuser)
     if request.method=="POST":
         tbl_complaint.objects.create(description=request.POST.get('complaint'),user=complaintuser)
         return redirect('webuser:complaint')
     else:
-        return render(request,'User/Complaint.html',{'complaint':complaintuser})
+        return render(request,'User/Complaint.html',{'complaint':complaintdata})
+
+def viewreply(request,cid):
+    reply=tbl_complaint.objects.get(id=cid)
+    return render(request,'User/Viewreply.html',{'i':reply})
+
+def productcart(request):
+    userdata=tbl_newuser.objects.all()
+    productdata=tbl_products.objects.all()
+    return render(request,'User/Viewproduct.html')

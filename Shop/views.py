@@ -52,8 +52,13 @@ def feedback(request):
 
 def complaint(request):
     complaintshop=tbl_shop.objects.get(id=request.session['sid'])
+    complaintdata=tbl_complaint.objects.filter(shop=complaintshop)
     if request.method=="POST":
         tbl_complaint.objects.create(description=request.POST.get("shopcomplaint"),shop=complaintshop)
         return redirect('webshop:complaint')
     else:
-        return render(request,'Shop/Complaint.html',{'complaint':complaintshop})
+        return render(request,'Shop/Complaint.html',{'complaint':complaintdata})
+
+def viewreply(request,sid):
+    reply=tbl_complaint.objects.get(id=sid)
+    return render(request,'Shop/Complaint.html')
