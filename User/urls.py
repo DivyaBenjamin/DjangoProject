@@ -16,5 +16,6 @@ urlpatterns = [
     path('Feedback/',views.feedback,name="feedback"),
     path('Complaint/',views.complaint,name="complaint"),
     path('Viewreply/',views.viewreply,name="viewreply"),
-    path('Productcart/<int:cid>',views.productcart,name="productcart"),
+    path('Productcart/<int:pid>',views.productcart,name="productcart"),
+    path('Mycart/',views.mycart,name="mycart"),
 ]

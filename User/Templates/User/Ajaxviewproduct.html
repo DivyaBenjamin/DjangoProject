@@ -7,6 +7,7 @@
                 <div>Name:{{l.name}}</div>
                 <div>Rate:{{l.rate}}</div>
                 <div>Stock:{{l.stock}}</div>
+                <div class="Btn-profile"><a href="{% url 'webuser:productcart' l.id %}">ADD TO CART</a></div>
             </div>
             {% endfor %}
         </div>

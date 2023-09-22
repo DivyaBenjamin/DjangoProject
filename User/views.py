@@ -114,7 +114,36 @@ def viewreply(request,cid):
     reply=tbl_complaint.objects.get(id=cid)
     return render(request,'User/Viewreply.html',{'i':reply})
 
-def productcart(request):
-    userdata=tbl_newuser.objects.all()
-    productdata=tbl_products.objects.all()
-    return render(request,'User/Viewproduct.html')
+def productcart(request,pid):
+    userdata=tbl_newuser.objects.get(id=request.session["uid"])
+    productdata=tbl_products.objects.get(id=pid)
+    bookingcount=tbl_booking.objects.filter(user_id=userdata,booking_status=0).count()
+    if bookingcount>0:
+        bookingdata=tbl_booking.objects.get(user_id=userdata,booking_status=0)
+        cartcount=tbl_cart.objects.filter(booking_id=bookingdata,product_id=productdata).count()
+        if cartcount>0:
+            return render(request,'User/Viewproduct.html',{'msg':'Already in Cart!'})
+        else:
+            tbl_cart.objects.create(booking_id=bookingdata,product_id=productdata)
+            return render(request,'User/Viewproduct.html',{'msg':'Added to Cart.'})
+    else:
+        tbl_booking.objects.create(user_id=userdata)
+        bookingcount=tbl_booking.objects.filter(user_id=userdata,booking_status=0).count()
+        if bookingcount>0:
+            bookingdata=tbl_booking.objects.get(user_id=userdata,booking_status=0)
+            cartcount=tbl_cart.objects.filter(booking_id=bookingdata,product_id=productdata).count()
+            if cartcount>0:
+                return render(request,'User/Viewproduct.html',{'msg':'Already in Cart!'})
+            else:
+                tbl_cart.objects.create(booking_id=bookingdata,product_id=productdata)
+                return render(request,'User/Viewproduct.html',{'msg':'Added to Cart.'})
+
+def mycart(request):
+    userdata=tbl_newuser.objects.get(id=request.session["uid"])
+    cartdata=tbl_cart.objects.filter(booking_id__user_id=userdata,booking_id__booking_status=0)
+    total=0
+    for i in cartdata:
+        total = total+int(i.product_id.rate) * int(i.quantity)
+        return render(request,'User/Mycart.html',{'cart':cartdata,'total':total})
+    else:
+        return render(request,'User/Mycart.html',{'cart':cartdata})

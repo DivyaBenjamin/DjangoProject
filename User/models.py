@@ -9,7 +9,7 @@ class tbl_booking(models.Model):
     payment_status=models.CharField(max_length=1,default='0')
 
 class tbl_cart(models.Model):
-    quantity=models.CharField(max_length=30)
+    quantity=models.IntegerField(default=1)
     product_id=models.ForeignKey(tbl_products,on_delete=models.CASCADE)
     booking_id=models.ForeignKey(tbl_booking,on_delete=models.CASCADE)
 
