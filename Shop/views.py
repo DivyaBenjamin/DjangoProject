@@ -30,7 +30,6 @@ def deleteproduct(request,pid):
     return redirect('webshop:products')
 
 def updatestock(request,rid):
-    Products=tbl_products.objects.get(id=request.session["sid"])
     updatestock=tbl_products.objects.get(id=rid)
     if request.method=="POST":
         oldstock=updatestock.stock
@@ -40,7 +39,7 @@ def updatestock(request,rid):
         updatestock.save()
         return redirect('webshop:products')
     else:
-        return render(request,'Shop/Updatestock.html',{'i':Products})
+        return render(request,'Shop/Updatestock.html',{'i':updatestock})
 
 def feedback(request):
     feedbackshop=tbl_shop.objects.get(id=request.session['sid'])

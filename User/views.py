@@ -143,7 +143,50 @@ def mycart(request):
     cartdata=tbl_cart.objects.filter(booking_id__user_id=userdata,booking_id__booking_status=0)
     total=0
     for i in cartdata:
-        total = total+int(i.product_id.rate) * int(i.quantity)
-        return render(request,'User/Mycart.html',{'cart':cartdata,'total':total})
+        total = total+int(i.product_id.rate) * int(i.quantity)   
+    return render(request,'User/Mycart.html',{'cart':cartdata,'total':total})
+    
+
+def Ajaxcart(request):
+    cartdata=tbl_cart.objects.get(id=request.GET.get('cartid'))
+    cartdata.quantity=request.GET.get('cdisd')
+    cartdata.save()
+    cartdatas=cartdata.booking_id.id
+    cart=tbl_cart.objects.filter(booking_id=cartdatas)
+    total1=0
+    for i in cart:
+        total1 = total1+int(i.quantity) * int(i.product_id.rate)
+    return render(request,'User/Ajaxcart.html',{'data':total1})
+
+def deletecart(request,did):
+    tbl_cart.objects.get(id=did).delete()
+    return redirect('webuser:mycart')
+
+def payment(request):
+    if request.method=="POST":
+        userdata=tbl_newuser.objects.get(id=request.session["uid"])
+        cartitem=tbl_cart.objects.filter(booking_id__user_id=userdata,booking_id__booking_status=0)
+        booking_item=tbl_booking.objects.get(user_id=request.session["uid"],booking_status='0',payment_status='0')
+        booking_item.booking_status=1
+        booking_item.payment_status=1
+        booking_item.save()
+        balance_price=0
+        for i in cartitem:
+            productdata=tbl_products.objects.get(id=i.product_id.id)
+            balance_price = int(productdata.stock) - int(i.quantity) 
+            productdata.stock=balance_price
+            productdata.save()
+            if productdata>0
+                
+        return redirect('webuser:paymentloader')
     else:
-        return render(request,'User/Mycart.html',{'cart':cartdata})
+        return render(request,'User/Payment.html')
+
+def paymentloader(request):
+    return render(request,'User/Loader.html')
+
+def paymentsuc(request):
+    return render(request,'User/MPayment.html')
+
+
+

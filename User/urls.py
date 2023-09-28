@@ -18,4 +18,9 @@ urlpatterns = [
     path('Viewreply/',views.viewreply,name="viewreply"),
     path('Productcart/<int:pid>',views.productcart,name="productcart"),
     path('Mycart/',views.mycart,name="mycart"),
+    path('Ajaxcart/',views.Ajaxcart,name="Ajaxcart"),
+    path('deletecart/<int:did>',views.deletecart,name="deletecart"),
+    path('Payment/',views.payment,name="payment"),
+    path('Paymentloader/',views.paymentloader,name="paymentloader"),
+    path('paymentsuc/',views.paymentsuc,name="paymentsuc"),
 ]
