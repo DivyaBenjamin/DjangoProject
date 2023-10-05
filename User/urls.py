@@ -23,4 +23,6 @@ urlpatterns = [
     path('Payment/',views.payment,name="payment"),
     path('Paymentloader/',views.paymentloader,name="paymentloader"),
     path('paymentsuc/',views.paymentsuc,name="paymentsuc"),
+    path('Myorder/',views.myorder,name="myorder"),
+    
 ]

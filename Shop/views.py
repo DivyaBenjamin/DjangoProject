@@ -61,3 +61,20 @@ def complaint(request):
 def viewreply(request,sid):
     reply=tbl_complaint.objects.get(id=sid)
     return render(request,'Shop/Complaint.html')
+
+def userorders(request):
+    shopdata=tbl_shop.objects.get(id=request.session['sid'])
+    data=tbl_cart.objects.filter(product_id__shop=shopdata)
+    return render(request,'Shop/Userorders.html',{'cart':data})
+
+def updateorder(request,tid):
+    shopdata=tbl_shop.objects.get(id=request.session["sid"])
+    productdata=tbl_products.objects.get(id=tid)
+    booking_item=tbl_booking.objects.get(id=request.session["sid"],booking_status='1')
+    booking_item.booking_status=2
+    booking_item.save()
+    return render(request,'Shop/Userorders.html')
+
+def deleteorder(request,uid):
+    tbl_cart.objects.get(id=uid).delete()
+    return redirect('webshop:userorders')

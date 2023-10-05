@@ -173,11 +173,21 @@ def payment(request):
         balance_price=0
         for i in cartitem:
             productdata=tbl_products.objects.get(id=i.product_id.id)
+            stock=productdata.stock
             balance_price = int(productdata.stock) - int(i.quantity) 
             productdata.stock=balance_price
             productdata.save()
-            if productdata>0
-                
+            if productdata==0:
+                userdata=tbl_newuser.objects.get(id=request.session["uid"])
+                productitem=tbl_cart.objects.filter(booking_id__booking_status=0,product=product)
+                for j in productitem:
+                    if j.booking_id.user_id!=user_id:
+                        j.quantity=0
+                        j.save()
+                        return redirect('webuser:paymentloader')
+            else:
+                return render(request,'User/Payment.html')
+
         return redirect('webuser:paymentloader')
     else:
         return render(request,'User/Payment.html')
@@ -188,5 +198,8 @@ def paymentloader(request):
 def paymentsuc(request):
     return render(request,'User/MPayment.html')
 
-
+def myorder(request):
+    userdata=tbl_newuser.objects.get(id=request.session["uid"])
+    data=tbl_cart.objects.filter(booking_id__user_id=userdata)
+    return render(request,'User/Myorder.html',{'cart':data})
 

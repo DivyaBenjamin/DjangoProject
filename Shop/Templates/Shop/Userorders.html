@@ -14,7 +14,7 @@
        }
        body{
         font-family: 'Times New Roman', Times, serif;
-        background: #faac36;
+        background: #77aee9;
        }
        .wrapper{
         max-width: 1000px;
@@ -84,23 +84,24 @@
        .btn-area i{
         margin-right: 5px;
        }
+        span a{
+        margin-right: 45px;
+        color: #000;
+       }
        .btn-area-1{
         position: absolute;
-        right: 140px;
-        padding: 10px 25px;
+        right: 210px;
+        padding: 10px 20px;
         background-color: #0c67c1;
         color: #fff;
         cursor: pointer;
         border-radius: 10px;
+        bottom: 36px;
        }
        .btn-area-1:hover{
         background-color: #76bfb6;
         color: #fff;
         transform: scale(1.2);
-       }
-        span a{
-        margin-right: 45px;
-        color: #000;
        }
        .right-box{
         flex: 20%;
@@ -111,16 +112,22 @@
         background: #fff;
         box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
        }
+       .btn2-order{
+        top: 20px;
+        align-items: baseline;
+       }
     </style>
 </head>
 <body>
+    <div class="btn2-order">
     <p class="btn-area">
         <i class="fa fa-home"></i>
-        <span class="btn2"><a href="{% url 'webuser:home' %}">Home</a></span>
+        <span class="btn2"><a href="{% url 'webshop:home' %}">Home</a></span>
     </p>
-    <form method="post" id="cartform" data-quantity-url="{% url 'webuser:Ajaxcart' %}">
+    </div>
+    <form method="post" id="orderform">
     <div class="wrapper">
-        <h1>Shopping Cart</h1>
+        <h1>User Orders</h1>
         <div class="project">
             <div class="shop">
                 {% for i in cart %}
@@ -128,53 +135,24 @@
                     <div class="content">
                         <p>Slno:{{forloop.counter}}</p>
                         <img src="{{i.product_id.image.url}}" width="150" height="150">
-                        <h3>Product name:{{i.product_id.name}}</h3>
+                        <h3>{{i.product_id.name}}</h3>
                         <h4>Rate:{{i.product_id.rate}}</h4>
                         {% csrf_token %}
-                        {% if i.product_id.stock > '0' %}
                         <p class="unit">Quantity:<input type="number" value="{{i.quantity}}" min="1" class="qty" alt="{{i.id}}"></p>
-                        {% else %}
-                        <h5><span style="color: red;">Out of stock</span></h5>
-                        {% endif %}
+                        <p class="btn-area-1">
+                            <i class="fa fa-check"></i>
+                            <span class="btn2"><a href="{% url 'webshop:updateorder' i.id %}">Accept</a></span>
+                        </p>
                         <p class="btn-area">
-                            <i class="fa fa-trash"></i>
-                            <span class="btn2"><a href="{% url 'webuser:deletecart' i.id %}">Remove</a></span>
+                            <i class="fa-solid fa-x"></i>
+                            <span class="btn2"><a href="{% url 'webshop:deleteorder' i.id %}">Reject</a></span>
                         </p>
                     </div>
                 </div>
                 {% endfor %}
-            </div>
-            <div class="right-box">
-                <p><span>Stock:</span><span></span></p>
-                <br>
-                <p><span>Tax:</span><span></span></p>
-                <br>
-                <p><span>Shipping:</span><span></span></p>
-                <br>
-                <p><span>Total:</span><span><p id="total">Rs{{ total }}</p></span></p>
-                <br>
-                <p class="btn-area-1">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="btn3"><a href="{% url 'webuser:payment' %}">Checkout</a></span>
-                </p>
             </div>
         </div>
     </div>
     </form>
 </body>
 </html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    $(".qty").change(function(){
-        var did = $(this).val();
-        var cid = $(this).attr('alt');
-        var cdr = $("#cartform").attr('data-quantity-url');
-        $.ajax({
-            url : cdr,
-            data: {cdisd: did,cartid: cid},
-            success: function (data) {
-            $("#total").html(data);
-            },
-        })
-    })
-</script>

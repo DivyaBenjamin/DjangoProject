@@ -54,6 +54,27 @@
      padding: 15px 25px;
      border-radius: 5px;
  }
+ .btn-area i{
+        margin-right: 5px;
+       }
+ .btn-area{
+        position: absolute;
+        right: 140px;
+        padding: 10px 25px;
+        background-color: #0c67c1;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 10px;
+    }
+       .btn-area:hover{
+        background-color: #76bfb6;
+        color: #fff;
+        transform: scale(1.2);
+       }
+        span a{
+        margin-right: 45px;
+        color: #000;
+       }
      </style>
 </head>
 <body>
@@ -73,7 +94,10 @@
                 <option value="">--Select--</option>
             </select>
         </div>
-        
+        <p class="btn-area">
+            <i class="fa fa-home"></i>
+            <span class="btn2"><a href="{% url 'webuser:home' %}">Home</a></span>
+        </p>
         <div class="Sub-container">
             <div class="Container">
                 <div class="Card-wrapper" id="shop">
