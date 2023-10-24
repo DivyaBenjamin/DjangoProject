@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <title>MyCart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
     <style>
@@ -12,6 +13,15 @@
         padding: 0;
         box-sizing: border-box;
        }
+       :root {
+	--yellow: #FFBD13;
+	--blue: #4383FF;
+	--blue-d-1: #3278FF;
+	--light: #F5F5F5;
+	--grey: #AAA;
+	--white: #FFF;
+	--shadow: 8px 8px 30px rgba(0,0,0,.05);
+}
        body{
         font-family: 'Times New Roman', Times, serif;
         background: #faac36;
@@ -101,6 +111,129 @@
         top: 20px;
         align-items: baseline;
        }
+       .btn-area-3{
+        position: absolute;
+        bottom: 36px;
+        right: -150px;
+        padding: 10px 25px;
+        background-color: #0c67c1;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 10px;
+       }
+       .btn-area-3:hover{
+        background-color: #76bfb6;
+        color: #fff;
+        transform: scale(1.2);
+       }
+       .popup{
+        background: rgba(0,0,0,0.6);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        display: none;
+        justify-content: center;
+        align-items: center;
+       }
+       .popup-content{
+        height: 350px;
+        width: 500px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        position: relative;
+       }
+       .popup-content h3{
+        font-size: 1.5rem;
+	    font-weight: 600;
+	    margin-bottom: 1rem;
+       }
+    .rating {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    grid-gap: .5rem;
+	    font-size: 2rem;
+	    color: var(--yellow);
+	    margin-bottom: 2rem;
+}
+.rating .star {
+	cursor: pointer;
+}
+.rating .star.active {
+	opacity: 0;
+	animation: animate .5s calc(var(--i) * .1s) ease-in-out forwards;
+}
+
+@keyframes animate {
+	0% {
+		opacity: 0;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.2);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+
+.rating .star:hover {
+	transform: scale(1.1);
+}
+textarea {
+	width: 100%;
+	background: var(--light);
+	padding: 1rem;
+	border-radius: .5rem;
+	border: none;
+	outline: none;
+	resize: none;
+	margin-bottom: .5rem;
+}
+.btn-group {
+	display: flex;
+	grid-gap: .5rem;
+	align-items: center;
+}
+.btn-group .btn {
+	padding: .75rem 1rem;
+	border-radius: .5rem;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	font-size: .875rem;
+	font-weight: 500;
+}
+.btn-group .btn.submit {
+	background: var(--blue);
+	color: var(--white);
+}
+.btn-group .btn.submit:hover {
+	background: var(--blue-d-1);
+}
+.btn-group .btn.cancel {
+	background: var(--white);
+	color: var(--blue);
+}
+.btn-group .btn.cancel:hover {
+	background: var(--light);
+}
+.close{
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: #fff;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    box-shadow: 6px 6px 29px -4px rgba(0,0,0,.75);
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -124,16 +257,109 @@
                         <h4>Rate:{{i.product_id.rate}}</h4>
                         {% csrf_token %}
                         <p class="unit">Quantity:<input type="number" value="{{i.quantity}}" min="1" class="qty" alt="{{i.id}}"></p>
-                        <p class="btn-area">
-                            <i class="fa fa-trash"></i>
-                            <span class="btn2"><a href="{% url 'webuser:deletecart' i.id %}">Remove</a></span>
+                        {% if i.booking_id.booking_status == '1' %}
+                        <p class="btn-area-3">
+                            <i class="fa fa-check"></i>
+                            <span class="btn2"><a href="{% url 'webuser:providerating' i.product_id.id %}" id="button">Rating</a></span>
                         </p>
+                        {% elif i.booking_id.booking_status == '2' %}
+                        Order Accepted
+                        {% elif i.booking_id.booking_status == '3' %}
+                        Order Rejected
+                        {% else %}
+                            {% if  i.status == '4' %}
+                            Order Canceled
+                            {% else %}
+                            <p class="btn-area">
+                                <i class="fa fa-trash"></i>
+                                <span class="btn2"><a href="{% url 'webuser:deletecart' i.id %}">Cancel</a></span>
+                            </p>
+                            {% endif %}
+                            {% endif %}
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </div>
+    {% if data %}
+<div class="popup">
+    <div class="popup-content">
+        <h3>Rating form</h3>
+		<form action="#" id="ratingform" data-rating-url="{% url 'webuser:Ajaxrating' %}">
+            <img src="{%static 'close.jpg' %}" alt="Close" class="close" id="close">
+			<div class="rating">
+				<input type="number" name="rating" hidden id="rating" value="{{rat.ratingdata}}">
+                <input type="text" name="prod" hidden id="product" value="{{sid}}">
+				<i class='bx bx-star star' style="--i: 0;" value="1"></i>
+				<i class='bx bx-star star' style="--i: 1;" value="2"></i>
+				<i class='bx bx-star star' style="--i: 2;" value="3"></i>
+				<i class='bx bx-star star' style="--i: 3;" value="4"></i>
+				<i class='bx bx-star star' style="--i: 4;" value="5"></i>
+			</div>
+			<textarea name="opinion" id="opinion" cols="30" rows="5" placeholder="Your opinion..." value="{{rat.opinion}}"></textarea>
+			<div class="btn-group">
+				<button type="button" class="btn submit" onclick="DataSub()">Submit</button>
+				<button class="btn cancel" onclick="closeForm()">Cancel</button>
+			</div>
+		</form>
+    </div>
+</div> 
     </form>
+    {% endif %}
+    
+    {% if data %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      //document.getElementById("button").addEventListener("click",function()
+      
+            document.querySelector(".popup").style.display = "flex";
+        
+            document.getElementById("close").addEventListener("click",function(){
+            document.querySelector(".popup").style.display = "none";
+      })
+const allStar = document.querySelectorAll('.rating .star')
+    const ratingValue = document.querySelector('.rating input')
+    
+    allStar.forEach((item, idx)=> {
+        item.addEventListener('click', function () {
+            let click = 0
+            ratingValue.value = idx + 1
+    
+            allStar.forEach(i=> {
+                i.classList.replace('bxs-star', 'bx-star')
+                i.classList.remove('active')
+            })
+            for(let i=0; i<allStar.length; i++) {
+                if(i <= idx) {
+                    allStar[i].classList.replace('bx-star', 'bxs-star')
+                    allStar[i].classList.add('active')
+                } else {
+                    allStar[i].style.setProperty('--i', click)
+                    click++
+                }
+            }
+        })
+    })
+    </script>
+{% endif %}    
+    <script>
+    function DataSub(){
+            var rate = document.getElementById("rating").value;
+            var op = document.getElementById('opinion').value;
+            var sid=document.getElementById("product").value;
+            var mor = $("#ratingform").attr("data-rating-url");
+            $.ajax({
+            url:"../../webuser/Ajaxrating/",
+            data: { rdid: rate, rid:op ,sid:sid},
+            success: function (data) {
+                //alert("Aswin");
+             window.location="../Myorder/";
+                },
+            })
+        }
+    
+    </script>
+    
 </body>
 </html>

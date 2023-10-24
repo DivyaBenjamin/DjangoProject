@@ -12,5 +12,9 @@ urlpatterns = [
     path('Viewreply/<int:sid>',views.viewreply,name="viewreply"),
     path('Userorders/',views.userorders,name="userorders"),
     path('Updateorder/<int:tid>',views.updateorder,name="updateorder"),
-    path('deleteorder/<int:uid>',views.deleteorder,name="deleteorder"),
+    path('updatereject/<int:uid>',views.updatereject,name="updatereject"),
+    path('Report/',views.report,name="report"),
+    path('Bookingreport/',views.bookingreport,name="bookingreport"),
+    path('Ajaxfromdatereport/',views.Ajaxfromdatereport,name="Ajaxfromdatereport"),
+    path('Viewrating/',views.viewrating,name="viewrating"),
 ]

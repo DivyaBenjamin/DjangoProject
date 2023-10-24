@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+</head>
+<style>
+    table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 3px solid purple;
+}
+
+th:nth-child(1) {
+  width: 30%;
+}
+
+th:nth-child(2) {
+  width: 20%;
+}
+
+th:nth-child(3) {
+  width: 15%;
+}
+
+th:nth-child(4) {
+  width: 35%;
+}
+
+th:nth-child(5) {
+  width: 35%;
+}
+
+th:nth-child(6) {
+  width: 35%;
+}
+
+th:nth-child(7) {
+  width: 35%;
+}
+
+th:nth-child(8) {
+  width: 35%;
+}
+
+th,
+td {
+  padding: 20px;
+}
+</style>
+<body>
+    <form action="" method="post" id="reportform" data-report-url="{% url 'webshop:Ajaxfromdatereport' %}">
+        {% csrf_token %}
+    <div class="main-content">
+        <div class="container">
+            <label>From date:</label>
+            <input type="date" name="fromdate" id="fromdate">
+            <label>To date:</label>
+            <input type="date" name="todate" id="todate">
+        </div>
+        <div class="button">
+            <input type="submit" name="submit" value="Enter">
+        </div>
+    </div>
+</form>
+    {% if product %}
+    <table id="report" align="center" border="1">
+        <tr>
+            <th>Sl.No</th>
+            <th>User Name</th>
+            <th>Product Name</th>
+            <th>Product Image</th>
+            <th>Product Quantity</th>
+            <th>Product Rate</th>
+            <th>Order Status</th>
+            <th>Booking Date</th>
+        </tr>
+        {% for i in product %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{i.booking_id.user_id.name}}</td>
+            <td>{{i.product_id.name}}</td>
+            <td><img src="{{i.product_id.image.url}}" alt="img" width="150px" height="150px"></td>
+            <td>{{i.quantity}}</td>
+            <td>{{i.product_id.rate}}</td>
+            <td>{% if i.booking.booking_status == 1 %}
+                Pending 
+                {% elif i.booking.booking_status == 2 %}
+                Order Accepted
+                {% elif i.booking.booking_status == 3 %}
+                Order Rejected
+                {% else %}
+                Order Not Confirmed Yet
+                {% endif %}
+            </td>
+            <td>{{i.booking_id.booking_date}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+</body>
+</html>

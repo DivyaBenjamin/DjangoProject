@@ -64,17 +64,60 @@ def viewreply(request,sid):
 
 def userorders(request):
     shopdata=tbl_shop.objects.get(id=request.session['sid'])
-    data=tbl_cart.objects.filter(product_id__shop=shopdata)
+    data=tbl_cart.objects.filter(product_id__shop=shopdata,booking_id__booking_status=1)
     return render(request,'Shop/Userorders.html',{'cart':data})
 
 def updateorder(request,tid):
-    shopdata=tbl_shop.objects.get(id=request.session["sid"])
-    productdata=tbl_products.objects.get(id=tid)
-    booking_item=tbl_booking.objects.get(id=request.session["sid"],booking_status='1')
+    booking_item=tbl_booking.objects.get(id=tid)
     booking_item.booking_status=2
     booking_item.save()
     return render(request,'Shop/Userorders.html')
 
-def deleteorder(request,uid):
-    tbl_cart.objects.get(id=uid).delete()
-    return redirect('webshop:userorders')
+def updatereject(request,uid):
+    booking_item=tbl_booking.objects.get(id=uid)
+    booking_item.booking_status=3
+    booking_item.save()
+    return render(request,'Shop/Userorders.html')
+
+def report(request):
+    if request.method=="POST":
+        shopdata=tbl_shop.objects.get(id=request.session['sid'])
+        fromdate=request.POST.get("fromdate")
+        todate=request.POST.get("todate")
+        if fromdate!="" and todate!="":
+            productdata=tbl_cart.objects.filter(booking_id__booking_date__gte=fromdate,booking_id__booking_date__lte=todate,
+                                                product_id__shop=shopdata)
+            return render(request,"Shop/Report.html",{'product':productdata})
+        elif fromdate!="":
+            productdata=tbl_cart.objects.filter(booking_id__booking_date__gte=fromdate,
+                                                product_id__shop=shopdata)
+            return render(request,"Shop/Report.html",{'product':productdata})
+        else:
+            productdata=tbl_cart.objects.filter(booking_id__booking_date__lte=todate,
+                                                product_id__shop=shopdata)
+            return render(request,"Shop/Report.html",{'product':productdata})
+    return render(request,'Shop/Report.html')
+
+def bookingreport(request):
+    return render(request,"Shop/Bookingreport.html")
+
+def Ajaxfromdatereport(request):
+    shopdata=tbl_shop.objects.get(id=request.session['sid'])
+    fromdate=request.GET.get("risd")
+    todate=request.GET.get("bisd")
+    if fromdate!="" and todate!="":
+        productdata=tbl_cart.objects.filter(booking_id__booking_date__gte=fromdate,booking_id__booking_date__lte=todate,
+                                                product_id__shop=shopdata)
+        return render(request,"Shop/Ajaxfromdatereport.html",{'product':productdata})
+    elif fromdate!="":
+        productdata=tbl_cart.objects.filter(booking_id__booking_date__gte=fromdate,
+                                                product_id__shop=shopdata)
+        return render(request,"Shop/Ajaxfromdatereport.html",{'product':productdata})
+    else:
+        productdata=tbl_cart.objects.filter(booking_id__booking_date__lte=todate,
+                                                product_id__shop=shopdata)
+        return render(request,"Shop/Ajaxfromdatereport.html",{'product':productdata})
+
+def viewrating(request):
+    
+    return render(request,"Shop/Viewrating.html")

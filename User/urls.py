@@ -20,9 +20,11 @@ urlpatterns = [
     path('Mycart/',views.mycart,name="mycart"),
     path('Ajaxcart/',views.Ajaxcart,name="Ajaxcart"),
     path('deletecart/<int:did>',views.deletecart,name="deletecart"),
+    path('removecart/<int:eid>',views.removecart,name="removecart"),
     path('Payment/',views.payment,name="payment"),
     path('Paymentloader/',views.paymentloader,name="paymentloader"),
     path('paymentsuc/',views.paymentsuc,name="paymentsuc"),
     path('Myorder/',views.myorder,name="myorder"),
-    
+    path('Providerating/<int:sid>',views.providerating,name="providerating"),
+    path('Ajaxrating/',views.Ajaxrating,name="Ajaxrating"),
 ]

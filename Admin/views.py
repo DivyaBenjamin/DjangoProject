@@ -143,3 +143,13 @@ def reply(request,kid):
         return redirect('webadmin:viewcomplaint')
     else:
         return render(request,'Admin/Reply.html',{'complaint':complaint,'complaint1':complaint})
+
+def viewreport(request):
+    shopdata=tbl_shop.objects.all()
+    product=[]
+    for i in shopdata:
+        data=tbl_cart.objects.filter(product_id__shop_id=i.id,booking_id__booking_status=2).count()
+        product.append(data)
+    datas=zip(shopdata,product)
+    return render(request,"Admin/Viewreport.html",{'product':datas})
+    

@@ -141,11 +141,11 @@
                         <p class="unit">Quantity:<input type="number" value="{{i.quantity}}" min="1" class="qty" alt="{{i.id}}"></p>
                         <p class="btn-area-1">
                             <i class="fa fa-check"></i>
-                            <span class="btn2"><a href="{% url 'webshop:updateorder' i.id %}">Accept</a></span>
+                            <span class="btn2"><a href="{% url 'webshop:updateorder' i.booking_id.id %}">Accept</a></span>
                         </p>
                         <p class="btn-area">
                             <i class="fa-solid fa-x"></i>
-                            <span class="btn2"><a href="{% url 'webshop:deleteorder' i.id %}">Reject</a></span>
+                            <span class="btn2"><a href="{% url 'webshop:updatereject' i.booking_id.id %}">Reject</a></span>
                         </p>
                     </div>
                 </div>

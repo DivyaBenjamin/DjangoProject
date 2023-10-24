@@ -22,4 +22,5 @@ urlpatterns = [
     path('Viewfeedback/',views.viewfeedback,name="viewfeedback"),
     path('Viewcomplaint/',views.viewcomplaint,name="viewcomplaint"),
     path('Reply/<int:kid>',views.reply,name="reply"),
+    path('Viewreport/',views.viewreport,name="viewreport"),
 ]

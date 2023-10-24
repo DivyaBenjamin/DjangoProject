@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+</head>
+<body>
+    <form action="" method="post" id="reportform" data-report-url="{% url 'webshop:Ajaxfromdatereport' %}">
+        {% csrf_token %}
+    <div class="main-content">
+        <div class="container">
+            <label>From date:</label>
+            <input type="date" name="fromdate" id="fromdate">
+            <label>To date:</label>
+            <input type="date" name="todate" id="todate">
+        </div>
+        <div class="button">
+            <input type="submit" name="submit" value="Enter">
+        </div>
+    </div>
+</form>
+    <table id="report" align="center" border="1">
+    </table>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+     $("#fromdate").change(function () {
+        var rid = $(this).val();
+        var tid = document.getElementById("todate").value;
+        var pr = $("#reportform").attr("data-report-url");
+        $.ajax({
+            url: pr,
+            data: { risd: rid,bisd: tid },
+            success: function (data) {
+                $("#report").html(data);
+            },
+        });
+    });
+    $("#todate").change(function () {
+        var bid = $(this).val();
+        var cid = document.getElementById("fromdate").value;
+        var br = $("#reportform").attr("data-report-url");
+        $.ajax({
+            url: br,
+            data: { bisd: bid,risd: cid },
+            success: function (data) {
+                $("#report").html(data);
+            },
+        });
+    });
+
+</script>

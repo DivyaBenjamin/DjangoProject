@@ -1,12 +1,22 @@
 <div class="Sub-container">
     <div class="Container">
         <div class="Card-wrapper" id="product">
-            {% for l in product %}
+            {% for l,j in product %}
             <div class="Card">
                 <div><img src="{{l.image.url}}" width="150" height="150"></div>
                 <div>Name:{{l.name}}</div>
                 <div>Rate:{{l.rate}}</div>
                 <div>Stock:{{l.stock}}</div>
+                <div class="rating">
+                    {% for k in ar %}
+                        {% if k <= j %}
+
+                    <i class='bx bxs-star star' style="--i: 0;"></i>
+                    {% else %}
+                    <i class='bx bx-star star' style="--i: 1;" ></i>
+                    {% endif %}
+                    {% endfor %}
+                </div>
                 <div class="Btn-profile"><a href="{% url 'webuser:productcart' l.id %}">ADD TO CART</a></div>
             </div>
             {% endfor %}

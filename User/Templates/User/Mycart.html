@@ -106,7 +106,7 @@
         flex: 20%;
         margin-left: 20px;
         padding: 20px;
-        height: 253px;
+        height: 140px;
         border-radius: 5px;
         background: #fff;
         box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
@@ -138,19 +138,13 @@
                         {% endif %}
                         <p class="btn-area">
                             <i class="fa fa-trash"></i>
-                            <span class="btn2"><a href="{% url 'webuser:deletecart' i.id %}">Remove</a></span>
+                            <span class="btn2"><a href="{% url 'webuser:removecart' i.id %}">Remove</a></span>
                         </p>
                     </div>
                 </div>
                 {% endfor %}
             </div>
             <div class="right-box">
-                <p><span>Stock:</span><span></span></p>
-                <br>
-                <p><span>Tax:</span><span></span></p>
-                <br>
-                <p><span>Shipping:</span><span></span></p>
-                <br>
                 <p><span>Total:</span><span><p id="total">Rs{{ total }}</p></span></p>
                 <br>
                 <p class="btn-area-1">

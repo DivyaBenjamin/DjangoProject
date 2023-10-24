@@ -72,11 +72,25 @@ def viewproducts(request):
     category=tbl_category.objects.all()
     subcategory=tbl_subcategory.objects.all()
     productdata=tbl_products.objects.all()
-    if request.method=="POST":
-        subdata=tbl_subcategory.objects.get(id=request.POST.get('subcategory'))
-        return redirect('webuser:viewproducts')
-    else:
-        return render(request,'User/Viewproduct.html',{'category':category,'product':productdata})
+    ratingdata=tbl_rating.objects.all()
+    rate=[]
+    ar=[1,2,3,4,5]
+    for i in productdata:
+        product=tbl_products.objects.get(id=i.id)
+        ratecount=tbl_rating.objects.filter(product=product).count()
+        if ratecount>0:
+            ratingdata=tbl_rating.objects.filter(product=product)
+            total=0
+            average=0
+            for j in ratingdata:
+                total=total+j.ratingdata
+            average=total/ratecount
+            rate.append(average)
+        else:
+            rate.append(0)
+    #print(rate)
+    content=zip(productdata,rate)
+    return render(request,'User/Viewproduct.html',{'category':category,'product':content,'ar':ar})
 
 def Ajaxcategory(request):
     subcategorydata=tbl_category.objects.get(id=request.GET.get('bisd'))
@@ -84,14 +98,50 @@ def Ajaxcategory(request):
     return render(request,'User/Ajaxcategory.html',{'subcategory':productdata})
 
 def Ajaxviewproduct(request):
+    category=tbl_category.objects.all()
+    subcategory=tbl_subcategory.objects.all()
+    productdata=tbl_products.objects.all()
+    ratingdata=tbl_rating.objects.all()
+    rate=[]
+    ar=[1,2,3,4,5]
     if request.GET.get('cid')!='':
         subcategorydata=tbl_subcategory.objects.get(id=request.GET.get('cid'))
         productdata=tbl_products.objects.filter(subcategory=subcategorydata)
-        return render(request,'User/Ajaxviewproduct.html',{'product':productdata})
+        for i in productdata:
+            product=tbl_products.objects.get(id=i.id)
+            ratecount=tbl_rating.objects.filter(product=product).count()
+            if ratecount>0:
+                ratingdata=tbl_rating.objects.filter(product=product)
+                total=0
+                average=0
+                for j in ratingdata:
+                    total=total+j.ratingdata
+                average=total/ratecount
+                rate.append(average)
+            else:
+                rate.append(0)
+        #print(rate)
+        content=zip(productdata,rate)
+        return render(request,'User/Ajaxviewproduct.html',{'product':content,'ar':ar})
     else:
         categorydata=tbl_category.objects.get(id=request.GET.get('bid'))
         productdata=tbl_products.objects.filter(subcategory__category=categorydata)
-        return render(request,'User/Ajaxviewproduct.html',{'product':productdata})
+        for i in productdata:
+            product=tbl_products.objects.get(id=i.id)
+            ratecount=tbl_rating.objects.filter(product=product).count()
+            if ratecount>0:
+                ratingdata=tbl_rating.objects.filter(product=product)
+                total=0
+                average=0
+                for j in ratingdata:
+                    total=total+j.ratingdata
+                average=total/ratecount
+                rate.append(average)
+            else:
+                rate.append(0)
+        #print(rate)
+        content=zip(productdata,rate)
+        return render(request,'User/Ajaxviewproduct.html',{'product':content,'ar':ar})
 
 def feedback(request):
     feedbackuser=tbl_newuser.objects.get(id=request.session['uid'])
@@ -159,7 +209,15 @@ def Ajaxcart(request):
     return render(request,'User/Ajaxcart.html',{'data':total1})
 
 def deletecart(request,did):
-    tbl_cart.objects.get(id=did).delete()
+    userdata=tbl_newuser.objects.get(id=request.session["uid"])
+    data=tbl_cart.objects.filter(booking_id__user_id=userdata)
+    booking_item=tbl_cart.objects.get(id=did)
+    booking_item.status=4
+    booking_item.save()
+    return render(request,'User/Myorder.html',{'cart':data})
+
+def removecart(request,eid):
+    tbl_cart.objects.get(id=eid).delete()
     return redirect('webuser:mycart')
 
 def payment(request):
@@ -203,3 +261,14 @@ def myorder(request):
     data=tbl_cart.objects.filter(booking_id__user_id=userdata)
     return render(request,'User/Myorder.html',{'cart':data})
 
+def providerating(request,sid):
+    rate=1
+    user=tbl_newuser.objects.get(id=request.session["uid"])
+    data=tbl_cart.objects.filter(booking_id__user_id=user)
+    return render(request,'User/Myorder.html',{'data':rate,'cart':data,'sid':sid})
+
+def Ajaxrating(request):
+    user=tbl_newuser.objects.get(id=request.session["uid"])
+    productdata=tbl_products.objects.get(id=request.GET.get("sid"))
+    tbl_rating.objects.create(ratingdata=request.GET.get('rdid'),opinion=request.GET.get('rid'),user=user,product=productdata)
+    return render(request,'User/Ajaxrating.html')

@@ -1,0 +1,33 @@
+<table id="report" align="center" border="1">
+    <tr>
+        <td>Sl.No</td>
+        <td>User Name</td>
+        <td>Product Name</td>
+        <td>Product Image</td>
+        <td>Product Quantity</td>
+        <td>Product Rate</td>
+        <td>Order Status</td>
+        <td>Booking Date</td>
+    </tr>
+    {% for i in product %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{i.booking_id.user_id.name}}</td>
+        <td>{{i.product_id.name}}</td>
+        <td><img src="{{i.product_id.image.url}}" alt="img" width="150px" height="150px"></td>
+        <td>{{i.quantity}}</td>
+        <td>{{i.product_id.rate}}</td>
+        <td>{% if i.booking.booking_status == 1 %}
+            Pending 
+            {% elif i.booking.booking_status == 2 %}
+            Order Accepted
+            {% elif i.booking.booking_status == 3 %}
+            Order Rejected
+            {% else %}
+            Order Not Confirmed Yet
+            {% endif %}
+        </td>
+        <td>{{i.booking_id.booking_date}}</td>
+    </tr>
+    {% endfor %}
+</table>
