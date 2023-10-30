@@ -23,4 +23,6 @@ urlpatterns = [
     path('Viewcomplaint/',views.viewcomplaint,name="viewcomplaint"),
     path('Reply/<int:kid>',views.reply,name="reply"),
     path('Viewreport/',views.viewreport,name="viewreport"),
+    path('Shopreport/',views.shopreport,name="shopreport"),
+    path('Viewreportshop/<int:lid>',views.viewreportshop,name="viewreportshop"),
 ]

@@ -47,13 +47,13 @@ td {
         <tr>
             <th>#</th>
             <th>Shop Name</th>
-            <th>Booking count</th>
+            <th>View report</th>
         </tr>
-        {% for i,j in product %}
+        {% for i in product %}
         <tr>
             <td>{{forloop.counter}}</td>
             <td>{{i.name}}</td>
-            <td>{{j}}</td>
+            <td><a href="{% url 'webadmin:viewreportshop' i.id %}">View Report</a></td>
            
         </tr>
         {% endfor %}

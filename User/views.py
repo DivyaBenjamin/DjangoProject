@@ -1,10 +1,23 @@
 from django.shortcuts import render,redirect
+from django.utils import timezone
 from User.models import*
 from Admin.models import*
 from Shop.models import*
 from datetime import date
+from datetime import datetime
+from django.conf import settings
+from django.core.mail import send_mail
+
 # Create your views here.
 def home(request):
+    bookingdata=tbl_booking.objects.filter(booking_status='0')
+    for i in bookingdata:
+        currentdate = timezone.now().date()
+        bookingdate = i.booking_date
+        time = currentdate - bookingdate
+        newtime = time.total_seconds()
+        if newtime > 168:
+            tbl_booking.objects.get(id=i.id).delete()
     return render(request,'User/Home.html')
 
 def changepassword(request):
@@ -14,6 +27,15 @@ def changepassword(request):
             if (request.POST.get('newpassword'))==(request.POST.get('confirmpassword')):
                 userreg.password=request.POST.get('confirmpassword')
                 userreg.save()
+                email=userreg.email
+                send_mail(
+                            'Respected Sir/Madam ',#subject
+                            "\rYour password is changed"
+                            "\r By"
+                            "\r Ringshoppie" ,#body
+                            settings.EMAIL_HOST_USER,
+                            [email],
+                        )
                 return render(request,'User/Changepassword.html',{'err':3})
             else:
                 return render(request,'User/Changepassword.html',{'err':1})
@@ -242,10 +264,19 @@ def payment(request):
                     if j.booking_id.user_id!=user_id:
                         j.quantity=0
                         j.save()
-                        return redirect('webuser:paymentloader')
+                
+                return redirect('webuser:paymentloader')
             else:
                 return render(request,'User/Payment.html')
-
+        email=userdata.email
+        send_mail(
+                            'Respected Sir/Madam ',#subject
+                            "\rPayment is successfully completed"
+                            "\r By"
+                            "\r Ringshoppie" ,#body
+                            settings.EMAIL_HOST_USER,
+                            [email],
+                        )
         return redirect('webuser:paymentloader')
     else:
         return render(request,'User/Payment.html')

@@ -119,5 +119,27 @@ def Ajaxfromdatereport(request):
         return render(request,"Shop/Ajaxfromdatereport.html",{'product':productdata})
 
 def viewrating(request):
-    
-    return render(request,"Shop/Viewrating.html")
+    ratingdata=tbl_rating.objects.all()
+    rate=[]
+    ar=[1,2,3,4,5]
+    shop=tbl_shop.objects.get(id=request.session["sid"])
+    data=tbl_products.objects.filter(shop=shop)
+    for i in data:
+        product=tbl_products.objects.get(id=i.id)
+        ratecount=tbl_rating.objects.filter(product=product).count()
+        if ratecount>0:
+            ratingdata=tbl_rating.objects.filter(product=product)
+            total=0
+            average=0
+            for j in ratingdata:
+                total=total+j.ratingdata
+            average=total/ratecount
+            rate.append(average)
+        else:
+            rate.append(0)
+    #print(rate)
+    content=zip(data,rate)
+    return render(request,'Shop/Viewrating.html',{'product':content,'ar':ar})
+
+def Ajaxviewproduct(request):
+    return render (request,'Shop/Ajaxviewproduct.html')

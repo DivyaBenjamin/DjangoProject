@@ -152,4 +152,31 @@ def viewreport(request):
         product.append(data)
     datas=zip(shopdata,product)
     return render(request,"Admin/Viewreport.html",{'product':datas})
+
+def shopreport(request):
+    shopdata=tbl_shop.objects.all()
+    return render(request,'Admin/Shopreport.html',{'product':shopdata})
+
+def viewreportshop(request,lid):
+    shopdata=tbl_shop.objects.get(id=lid)
+    productdata=tbl_products.objects.filter(shop=shopdata)
+    ratingdata=tbl_rating.objects.all()
+    rate=[]
+    ar=[1,2,3,4,5]
+    for i in productdata:
+        product=tbl_products.objects.get(id=i.id)
+        ratecount=tbl_rating.objects.filter(product=product).count()
+        if ratecount>0:
+            ratingdata=tbl_rating.objects.filter(product=product)
+            total=0
+            average=0
+            for j in ratingdata:
+                total=total+j.ratingdata
+            average=total/ratecount
+            rate.append(average)
+        else:
+            rate.append(0)
+    #print(rate)
+    content=zip(productdata,rate)
+    return render(request,'Admin/Viewreportshop.html',{'product':content,'ar':ar})
     

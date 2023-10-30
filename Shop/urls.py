@@ -17,4 +17,5 @@ urlpatterns = [
     path('Bookingreport/',views.bookingreport,name="bookingreport"),
     path('Ajaxfromdatereport/',views.Ajaxfromdatereport,name="Ajaxfromdatereport"),
     path('Viewrating/',views.viewrating,name="viewrating"),
+    path('Ajaxviewproduct',views.Ajaxviewproduct,name="Ajaxviewproduct"),
 ]
